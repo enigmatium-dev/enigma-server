@@ -20,9 +20,23 @@ app.use((req, res) => {
     res.status(404).send('Not found');
 });
 io.on('connection', (socket) => {
-    logger_1.default.b('connection');
     socket.on('message', (data) => {
         logger_1.default.b('message', data);
+    });
+    socket.conn.once('upgrade', () => {
+        logger_1.default.b('connection: upgrade', socket.conn.transport.name);
+    });
+    socket.conn.on('packet', ({ type, data }) => {
+        logger_1.default.b('connection: packet');
+    });
+    socket.conn.on('packetCreate', ({ type, data }) => {
+        logger_1.default.b('connection: packetCreate');
+    });
+    socket.conn.on('drain', () => {
+        logger_1.default.b('connection: drain');
+    });
+    socket.conn.on('heartbeat', () => {
+        logger_1.default.b('connection: heartbeat');
     });
     socket.conn.on('close', (reason) => {
         logger_1.default.b('connection: close > reason', reason);
