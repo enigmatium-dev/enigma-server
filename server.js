@@ -17,6 +17,9 @@ const io = new socket_io_1.Server(httpServer, {
         methods: ['GET', 'POST'],
     },
 });
+app.use(`/ping`, (req, res) => {
+    res.status(200).json({ message: 'Ping OK' });
+});
 io.use((socket, next) => {
     let handshake = socket.handshake;
     console.log('io.use handshake', handshake);
