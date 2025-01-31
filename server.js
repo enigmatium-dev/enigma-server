@@ -21,7 +21,8 @@ app.use((req, res) => {
 });
 io.on('connection', (socket) => {
     socket.on('message', (data) => {
-        logger_1.default.b('message', data);
+        logger_1.default.b('incoming message', data);
+        socket.emit('message', data);
     });
     socket.conn.once('upgrade', () => {
         logger_1.default.b('connection: upgrade', socket.conn.transport.name);
