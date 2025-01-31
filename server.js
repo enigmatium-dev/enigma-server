@@ -23,4 +23,24 @@ io.on('connection', (socket) => {
     socket.on('message', (data) => {
         logger_1.default.b('message', data);
     });
+    logger_1.default.b('connection: handshake', socket.handshake);
+    logger_1.default.b('connection: initial transport', socket.conn.transport.name);
+    socket.conn.once('upgrade', () => {
+        logger_1.default.b('connection: upgrade', socket.conn.transport.name);
+    });
+    socket.conn.on('packet', ({ type, data }) => {
+        logger_1.default.b('connection: packet');
+    });
+    socket.conn.on('packetCreate', ({ type, data }) => {
+        logger_1.default.b('connection: packetCreate');
+    });
+    socket.conn.on('drain', () => {
+        logger_1.default.b('connection: drain');
+    });
+    socket.conn.on('heartbeat', () => {
+        logger_1.default.b('connection: heartbeat');
+    });
+    socket.conn.on('close', (reason) => {
+        logger_1.default.b('connection: close > reason', reason);
+    });
 });
